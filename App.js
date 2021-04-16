@@ -27,7 +27,7 @@ const App = () => {
       {user ?(
         <Text>Estas logueado</Text>
       ):(
-        <Text>No estas logueado</Text>
+        <Auth/>
       )
     }
     </SafeAreaView>
