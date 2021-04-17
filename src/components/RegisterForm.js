@@ -1,5 +1,6 @@
 import React,{useState} from 'react'
 import { StyleSheet, Text, TouchableOpacity,TextInput,View } from 'react-native'
+import firebase from '../utils/firebase';
 import { validateEmail } from '../utils/Validations';
 
 export default function RegisterForm(props) {
@@ -21,7 +22,15 @@ export default function RegisterForm(props) {
             errors.repeatPassword=true;
             errors.password=true;
         }else{
-            console.log('todooka')
+            firebase.auth().createUserWithEmailAndPassword(formData.email,formData.password).then(()=>{
+                console.log('creadted')
+            }).catch(()=>{
+                setFormError({
+                    email:true,
+                    password:true,
+                    repeatPassword:true
+                });
+            })
         }
 
         setFormError(errors);
