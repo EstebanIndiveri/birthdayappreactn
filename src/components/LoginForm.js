@@ -6,9 +6,27 @@ import { validateEmail } from '../utils/Validations'
 export default function LoginForm(props) {
     const{changeForm}=props
     const [formData, setFormData] = useState(defaultValue())
+    const[formError,setFormError]=useState({})
     const login =()=>{
-        console.log('login starting')
-        console.log(formData)
+        let errors={};
+        if(!formData.email||!formData.password){
+            if(!formData.email)errors.email=true;
+            if(!formData.password)errors.password=true;
+        }else if(!validateEmail(formData.email)){
+            errors.email=true;
+        }else{
+            // Login firebase
+            firebase.auth().signInWithEmailAndPassword(formData.email,formData.password).then(()=>{
+                console.log('login');
+            }).catch(()=>{
+                setFormError({
+                    email:true,
+                    password:true
+                })
+            })
+
+        }
+        setFormError(errors);
     }
 
     const onChange=(e,type)=>{
@@ -23,14 +41,14 @@ export default function LoginForm(props) {
             <TextInput
             placeholder="Correo Electronico"
             placeholderTextColor="#969696"
-            style={styles.input}
+            style={[styles.input,formError.email&&styles.errorInput]}
             onChange={(e)=>onChange(e,'email')}
             />   
             <TextInput
             placeholder="Contraseña"
             placeholderTextColor="#969696"
             secureTextEntry={true}
-            style={styles.input}
+            style={[styles.input,formError.password&&styles.errorInput]}
             onChange={(e)=>onChange(e,'password')}
             />
               <TouchableOpacity
@@ -79,4 +97,8 @@ const styles = StyleSheet.create({
         justifyContent:'flex-end',
         marginBottom:15
     },
+    errorInput:{
+        borderColor:"#940c0c",
+        borderWidth:1,
+    }
 })
