@@ -1,20 +1,47 @@
 import React,{useState} from 'react'
-import { StyleSheet, Text, View,TextInput } from 'react-native'
+import { StyleSheet, Text, View,TextInput,TouchableOpacity } from 'react-native'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import moment from 'moment';
 
 export default function AddBirthday() {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    const [formData, setFormData] = useState({})
+    const [formError, setFormError] = useState({})
     const hiddeDatePicker=()=>{
         setDatePickerVisibility(false);
     }
     const handlerConfirm=(data)=>{
-        // setDatePickerVisibility(true);
-        console.log(data);
+        const dateBirth=data;
+        dateBirth.setHours(0);
+        dateBirth.setMinutes(0);
+        dateBirth.setSeconds(0);
+        setFormData({
+            ...formData,
+            dateBirth
+        })
+        console.log(dateBirth)
         hiddeDatePicker();
     }
     
     const showDatePicker=()=>{
         setDatePickerVisibility(true);
+    }
+
+    const onChange=(e,type)=>{
+        setFormData({
+            ...formData,
+            [type]:e.nativeEvent.text
+        })
+    }
+
+    const onSubmit=()=>{
+        let errors={};
+        if(!formData.name|| formData.lastname || !formData.dateBirth){
+            if(!formData.name)errors.name=true;
+            if(!formData.lastname)errors.lastname=true;
+            if(!formData.dateBirth)errors.dateBirth=true;
+        }
+        setFormError(errors);
     }
 
     return (
@@ -23,18 +50,31 @@ export default function AddBirthday() {
                <TextInput
                placeholder="Nombre"
                placeholderTextColor="#969696"
-                style={styles.input}
+                style={[styles.input,formError.name&&{borderColor:'#940c0c'}]}
+                onChange={(e)=>onChange(e,'name')}
                />
                <TextInput
                placeholder="Apellido"
                placeholderTextColor="#969696"
-                style={styles.input}
+               style={[styles.input,formError.lastname&&{borderColor:'#940c0c'}]}
+                onChange={(e)=>onChange(e,'lastname')}
+                
                />
-               <View style={[styles.input,styles.datepicker]}>
-                   <Text style={styles.textDate}
+               <View style={[styles.input,styles.datepicker,formError.dateBirth&&{borderColor:'#940c0c'}]}>
+                   <Text style={{color:formData.dateBirth?'#FFF':'#969696',fontSize:18}}
                    onPress={showDatePicker}
-                   >Fecha de nacimiento</Text>
+                   >{formData.dateBirth?moment(formData.dateBirth).format('LL'):(
+                       "Fecha de nacimiento"
+                   )}
+                    </Text>
                </View>
+               <TouchableOpacity
+               onPress={onSubmit}
+               >
+                   <Text style={styles.addButton}>
+                       Crear cumpleaños
+                   </Text>
+               </TouchableOpacity>
            </View>
            <DateTimePickerModal
            isVisible={isDatePickerVisible}
@@ -72,5 +112,9 @@ const styles = StyleSheet.create({
     textDate:{
         color:"#969696",
         fontSize:18
+    },
+    addButton:{
+        fontSize:18,
+        color:'#FFF',
     }
 })
