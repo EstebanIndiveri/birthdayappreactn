@@ -5,6 +5,8 @@ import moment from 'moment';
 import firebase from '../utils/firebase';
 import 'firebase/firestore';
 
+const db=firebase.firestore(firebase);
+
 export default function AddBirthday() {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [formData, setFormData] = useState({})
@@ -47,6 +49,12 @@ export default function AddBirthday() {
         }else{
             console.log('VAMONOS');
             const data=formData;
+            data.dateBirth.setYear(0);
+            db.collection(user.uid).add(data).then(()=>{
+                console.log('ok');
+            }).catch(()=>{
+                setFormError({name:true,lastname:true,dateBirth:true})
+            })
             console.log(data)
             // data.dateBirth.setYear(0);
 
