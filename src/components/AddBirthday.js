@@ -2,6 +2,8 @@ import React,{useState} from 'react'
 import { StyleSheet, Text, View,TextInput,TouchableOpacity } from 'react-native'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from 'moment';
+import firebase from '../utils/firebase';
+import 'firebase/firestore';
 
 export default function AddBirthday() {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -44,7 +46,10 @@ export default function AddBirthday() {
             if(!formData.dateBirth)errors.dateBirth=true;
         }else{
             console.log('VAMONOS');
-            console.log('a')
+            const data=formData;
+            console.log(data)
+            // data.dateBirth.setYear(0);
+
         }
         setFormError(errors);
     }
