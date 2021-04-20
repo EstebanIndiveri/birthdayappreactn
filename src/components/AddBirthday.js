@@ -19,7 +19,7 @@ export default function AddBirthday() {
             ...formData,
             dateBirth
         })
-        console.log(dateBirth)
+        // console.log(dateBirth)
         hiddeDatePicker();
     }
     
@@ -35,11 +35,16 @@ export default function AddBirthday() {
     }
 
     const onSubmit=()=>{
+        // console.log('enviando')
+        // console.log(formData)
         let errors={};
-        if(!formData.name|| formData.lastname || !formData.dateBirth){
+        if(!formData.name|| !formData.lastname || formData.dateBirth.length==='0'){
             if(!formData.name)errors.name=true;
             if(!formData.lastname)errors.lastname=true;
             if(!formData.dateBirth)errors.dateBirth=true;
+        }else{
+            console.log('VAMONOS');
+            console.log('a')
         }
         setFormError(errors);
     }
