@@ -4,7 +4,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from 'moment';
 import firebase from '../utils/firebase';
 import 'firebase/firestore';
-
+firebase.firestore().settings({experimentalAutoDetectLongPolling:true})
 const db=firebase.firestore(firebase);
 
 export default function AddBirthday() {
@@ -50,7 +50,7 @@ export default function AddBirthday() {
             console.log('VAMONOS');
             const data=formData;
             data.dateBirth.setYear(0);
-            db.collection(user.uid).add(data).then(()=>{
+            db.collection('cumples').add(data).then(()=>{
                 console.log('ok');
             }).catch(()=>{
                 setFormError({name:true,lastname:true,dateBirth:true})
