@@ -5,11 +5,13 @@ import 'firebase/auth';
 import { SafeAreaView,StyleSheet, StatusBar,YellowBox } from 'react-native'
 import {decode,encode} from 'base-64';
 import ListBirthday from './src/components/ListBirthday';
+// import {WebChannel} from '@firebase/webchannel-wrapper';
 
 if(!global.btoa)global.btoa=encode;
 if(!global.atob)global.atob=decode;
 
 YellowBox.ignoreWarnings(['Setting a timer'])
+
 
 const App = () => {
   const [user, setUser] = useState(undefined);
