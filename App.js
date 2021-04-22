@@ -62,7 +62,7 @@ const App = () => {
     >
       {user ?(
         // <Logout/>
-        <ListBirthday/>
+        <ListBirthday user={user}/>
       ):(
         <Auth/>
       )
