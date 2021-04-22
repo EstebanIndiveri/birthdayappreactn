@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import firebase from '../utils/firebase'
+// import firebase from '../utils/firebase'
 
 export default function ActionBar(props) {
     const{setShowlist,showlist}=props;
@@ -9,7 +9,7 @@ export default function ActionBar(props) {
         <View style={styles.viewFooter}>
             <View style={styles.viewClose}>
                 <Text style={styles.text}
-                onPress={()=>firebase.auth().signOut()}
+                // onPress={()=>firebase.auth().signOut()}
                 >Cerrar Sesión</Text>
             </View>
             <View style={styles.viewAdd}>

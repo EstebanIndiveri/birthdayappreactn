@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
 import { StyleSheet, View,TouchableOpacity,Text,TextInput} from 'react-native'
-import firebase from '../utils/firebase'
+// import firebase from '../utils/firebase'
 import { validateEmail } from '../utils/Validations'
 
 export default function LoginForm(props) {
@@ -16,14 +16,14 @@ export default function LoginForm(props) {
             errors.email=true;
         }else{
             // Login firebase
-            firebase.auth().signInWithEmailAndPassword(formData.email,formData.password).then(()=>{
-                console.log('login');
-            }).catch(()=>{
-                setFormError({
-                    email:true,
-                    password:true
-                })
-            })
+            // firebase.auth().signInWithEmailAndPassword(formData.email,formData.password).then(()=>{
+            //     console.log('login');
+            // }).catch(()=>{
+            //     setFormError({
+            //         email:true,
+            //         password:true
+            //     })
+            // })
 
         }
         setFormError(errors);
