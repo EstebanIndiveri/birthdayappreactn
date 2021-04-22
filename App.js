@@ -4,6 +4,8 @@ import React, { Fragment, useEffect, useState } from 'react';
 
 import Auth from './src/components/Auth';
 
+import auth from '@react-native-firebase/auth';
+
 // import 'firebase/auth';
 
 import { SafeAreaView,StyleSheet, StatusBar,YellowBox } from 'react-native'
@@ -18,16 +20,37 @@ import ListBirthday from './src/components/ListBirthday';
 
 
 const App = () => {
+  const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState(true);
+
+  function onAuthStateChanged(user) {
+    setUser(user);
+    if (initializing) setInitializing(false);
+  }
+
   useEffect(()=>{
     // firebase.auth().onAuthStateChanged((response)=>{
     //   // console.log('usuario:log',response);
     //   setUser(response);
     // });
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber;
+
   },[]);
-  if(user === undefined){
-    return null;
-  }
+  
+  if (initializing)return null;
+
+  if(!user){
+    return(
+      <View>
+        <Text>Login</Text>
+      </View>
+    );
+  };
+
+  // if(user === undefined){
+    // return null;
+  // }
 
   return ( 
     <Fragment>
