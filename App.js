@@ -8,7 +8,7 @@ import auth from '@react-native-firebase/auth';
 
 // import 'firebase/auth';
 
-import { SafeAreaView,StyleSheet, StatusBar,YellowBox } from 'react-native'
+import { SafeAreaView,StyleSheet, StatusBar,YellowBox,View,Text } from 'react-native'
 // import {decode,encode} from 'base-64';
 import ListBirthday from './src/components/ListBirthday';
 // import {WebChannel} from '@firebase/webchannel-wrapper';
@@ -40,13 +40,13 @@ const App = () => {
   
   if (initializing)return null;
 
-  if(!user){
-    return(
-      <View>
-        <Text>Login</Text>
-      </View>
-    );
-  };
+  // if(!user){
+  //   return(
+  //     <View>
+  //       <Text>Login</Text>
+  //     </View>
+  //   );
+  // };
 
   // if(user === undefined){
     // return null;

@@ -1,15 +1,21 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 // import firebase from '../utils/firebase'
+import auth from '@react-native-firebase/auth';
 
 export default function ActionBar(props) {
     const{setShowlist,showlist}=props;
+    const handleSignOut=()=>{
+        auth()
+        .signOut()
+        .then(() => console.log('User signed out!'));
+    }
 
     return (
         <View style={styles.viewFooter}>
             <View style={styles.viewClose}>
                 <Text style={styles.text}
-                // onPress={()=>firebase.auth().signOut()}
+                onPress={()=>handleSignOut()}
                 >Cerrar Sesión</Text>
             </View>
             <View style={styles.viewAdd}>

@@ -1,5 +1,7 @@
 import React,{useState} from 'react'
 import { StyleSheet, Text, TouchableOpacity,TextInput,View } from 'react-native'
+import auth from '@react-native-firebase/auth';
+
 // import firebase from '../utils/firebase';
 import { validateEmail } from '../utils/Validations';
 
@@ -22,6 +24,23 @@ export default function RegisterForm(props) {
             errors.repeatPassword=true;
             errors.password=true;
         }else{
+            auth()
+            .createUserWithEmailAndPassword('jane.doe@example.com', 'SuperSecretPassword!')
+            .then(() => {
+                console.log('User account created & signed in!');
+            })
+            .catch(error => {
+                if (error.code === 'auth/email-already-in-use') {
+                console.log('That email address is already in use!');
+                }
+
+                if (error.code === 'auth/invalid-email') {
+                console.log('That email address is invalid!');
+                }
+
+                console.error(error);
+            });
+            
             // firebase.auth().createUserWithEmailAndPassword(formData.email,formData.password).then(()=>{
             //     console.log('creadted')
             // }).catch(()=>{
