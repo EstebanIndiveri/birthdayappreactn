@@ -17,7 +17,7 @@ export default function ListBirthday(props) {
             <Text>ListBirthDay</Text>
             </>
             ):(
-                <AddBirthday user={user}/>
+                <AddBirthday user={user} setShowlist={setShowlist}/>
             )}
             
 
