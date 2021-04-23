@@ -17,6 +17,7 @@ export default function AddBirthday(props) {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [formData, setFormData] = useState({})
     const [formError, setFormError] = useState({})
+
     const hiddeDatePicker=()=>{
         setDatePickerVisibility(false);
     }
