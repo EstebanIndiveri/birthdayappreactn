@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, Text, View,TouchableOpacity } from 'react-native'
 
 export default function Birthday(props) {
-    const{item}=props;
+    const{item, DeleteBirthDay}=props;
     const pasat=item.days>0 ?true:false;
     const infoDay=()=>{
         if(item.days===0){
@@ -20,7 +20,9 @@ export default function Birthday(props) {
         }
     }
     return (
-        <TouchableOpacity style={[styles.card,pasat?styles.pasat:item.days===0?styles.actual:styles.current]}>
+        <TouchableOpacity 
+        onPress={()=>DeleteBirthDay(item)}
+        style={[styles.card,pasat?styles.pasat:item.days===0?styles.actual:styles.current]}>
             <Text style={styles.userName}>{item.name} {item.lastname}</Text>
             {pasat?(<Text style={{color:'#FFF'}}>Pasado</Text>):(
                 infoDay()

@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react'
-import { StyleSheet, Text, View,ScrollView } from 'react-native'
+import { StyleSheet, View,ScrollView,Alert} from 'react-native'
 import ActionBar from './ActionBar'
 import AddBirthday from './AddBirthday'
 import firestore from '@react-native-firebase/firestore';
@@ -64,6 +64,29 @@ export default function ListBirthday(props) {
         setPastBirthday(pasatBirthDayTempArray);
     }
 
+    const DeleteBirthDay=(birthday)=>{
+        Alert.alert(
+            'Eliminar Cumpleaños',
+            `¿Estas seguro de eliminar el cumpleaños de: ${birthday.name} ${birthday.lastname}?`,
+            [
+                {
+                    text:'Cancelar',
+                    style:'cancel',
+                },
+                {
+                    text:'Eliminar',
+                    onPress:()=>{
+                        firestore()
+                        .collection(user.uid).doc(birthday.id).delete().then(()=>{
+                            setReloadData(true);
+                        })
+                    }
+                }
+            ],
+            {cancelable:false}
+        )
+    }
+
     return (
         <View style={styles.container}>
             {showlist?(
@@ -71,10 +94,10 @@ export default function ListBirthday(props) {
                 style={styles.scrollView}
                 >
                    {birthDay.map((item,index)=>(
-                       <Birthday item={item} key={index}/>
+                       <Birthday item={item} key={index} DeleteBirthDay={DeleteBirthDay}/>
                    ))}
                    {pastBirthday.map((item,index)=>(
-                       <Birthday key={index} item={item}/>
+                       <Birthday key={index} item={item} DeleteBirthDay={DeleteBirthDay}/>
                    ))}
                 </ScrollView>
             ):(
