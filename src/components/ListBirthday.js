@@ -1,15 +1,17 @@
 import React,{useState,useEffect} from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View,ScrollView } from 'react-native'
 import ActionBar from './ActionBar'
 import AddBirthday from './AddBirthday'
 import firestore from '@react-native-firebase/firestore';
 import moment from 'moment';
+import Birthday from './Birthday'
 
 export default function ListBirthday(props) {
     const {user}=props;
     const [showlist, setShowlist] = useState(true);
     const [birthDay,setBirthday]=useState([]);
     const [pastBirthday, setPastBirthday] = useState([]); 
+    const [reloadData, setReloadData] = useState(false);
 
     useEffect(() => {
         setBirthday([]);
@@ -28,7 +30,8 @@ export default function ListBirthday(props) {
             // setBirthday(itemArray);
             formatData(itemArray);
         });
-    }, []);
+        setReloadData(false);
+    }, [reloadData]);
 
     const formatData=(items)=>{
         const currentDate=moment().set({
@@ -56,23 +59,26 @@ export default function ListBirthday(props) {
             }else{
                 pasatBirthDayTempArray.push(itemTemp)
             }
-            setBirthday(birthDayTempArray);
-            setPastBirthday(pasatBirthDayTempArray);
         });
+        setBirthday(birthDayTempArray);
+        setPastBirthday(pasatBirthDayTempArray);
     }
 
     return (
         <View style={styles.container}>
             {showlist?(
-            <>
-            <Text>ListBirthDay</Text>
-            <Text>ListBirthDay</Text>
-            <Text>ListBirthDay</Text>
-            <Text>ListBirthDay</Text>
-            <Text>ListBirthDay</Text>
-            </>
+                <ScrollView
+                style={styles.scrollView}
+                >
+                   {birthDay.map((item,index)=>(
+                       <Birthday item={item} key={index}/>
+                   ))}
+                   {pastBirthday.map((item,index)=>(
+                       <Birthday key={index} item={item}/>
+                   ))}
+                </ScrollView>
             ):(
-                <AddBirthday user={user} setShowlist={setShowlist}/>
+                <AddBirthday user={user} setShowlist={setShowlist} setReloadData={setReloadData}/>
             )}
             
 
@@ -85,5 +91,9 @@ const styles = StyleSheet.create({
     container:{
         alignItems:'center',
         height:'100%'
+    },
+    scrollView:{
+        marginBottom:50,
+        width:'100%'
     }
 })

@@ -13,7 +13,7 @@ import firestore from '@react-native-firebase/firestore';
 // const db=firebase.firestore(firebase);
 
 export default function AddBirthday(props) {
-    const{user,setShowlist}=props;
+    const{user,setShowlist,setReloadData}=props;
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [formData, setFormData] = useState({})
     const [formError, setFormError] = useState({})
@@ -58,6 +58,7 @@ export default function AddBirthday(props) {
             data.dateBirth.setYear(0);
             firestore().collection(user.uid).add(data).then(()=>{
                 console.log('add cumples')
+                setReloadData(true);
                 setShowlist(true);
             }).catch(()=>{
                 setFormError({name:true,lastname:true,dateBirth:true})
